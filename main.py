@@ -107,6 +107,7 @@ if __name__ == '__main__':
     patience = args.patience
     
     best_acc_dev = 0.0
+    acc_test_best_dev_model = 0.0
     best_epoch = 0
     patience_count = 0
     for e in range(args.epoch):
@@ -119,6 +120,7 @@ if __name__ == '__main__':
         
         if now['acc_dev'] > best_acc_dev:
             best_acc_dev = now['acc_dev'] 
+            acc_test_best_dev_model = now['acc_test'],
             best_epoch = e
             print 'New Best Acc Dev:' + str(best_acc_dev)
             print 'epoch ' + str(e)
@@ -138,3 +140,4 @@ if __name__ == '__main__':
         with open('result/%s.txt' % args.name, 'w') as f:
             f.writelines(json.dumps(details))
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
+    print 'test-accuracy for best dev model:' + str(best_acc_dev)
