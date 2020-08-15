@@ -95,7 +95,7 @@ if __name__ == '__main__':
     args, _ = parser.parse_known_args(argv)
 
     random.seed(args.seed)
-    data = DataManager(args.dataset)
+    data = DataManager(args.dataset, args.seed)
     wordlist = data.gen_word()
     train_data, dev_data, test_data = data.gen_data(args.grained)
     model = Model(wordlist, argv, len(data.dict_target))
