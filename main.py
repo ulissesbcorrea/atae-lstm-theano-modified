@@ -9,6 +9,7 @@ from Optimizer import OptimizerList
 from Evaluator import Evaluators
 from DataManager import DataManager
 from lstm_att_con import AttentionLstm as Model
+import os
 
 def train(model, train_data, optimizer, epoch_num, batch_size, batch_n):
     st_time = time.time()
