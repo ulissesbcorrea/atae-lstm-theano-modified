@@ -126,7 +126,7 @@ if __name__ == '__main__':
             print 'epoch ' + str(e)
             patience_count = 0
             all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e}
-            with open('result/%s.txt' % 'best_results', 'w') as f:
+            with open('result/%s/%s.txt' % (seed,'best_results'), 'w') as f:
                 f.writelines(json.dumps(all_results))
         else:
             patience_count = patience_count + 1
