@@ -137,7 +137,7 @@ if __name__ == '__main__':
             print 'epoch ' + str(e)
             patience_count = 0
             all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e}
-            with codecs.open(os.path.join('result',str(seed),'best_results.txt'), 'w',"utf-8-sig") as f:
+            with codecs.open(os.path.join('results',str(seed),'best_results.txt'), 'w',"utf-8-sig") as f:
                 f.writelines(json.dumps(all_results))
         else:
             patience_count = patience_count + 1
