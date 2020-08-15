@@ -93,13 +93,19 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=5)
 
     args, _ = parser.parse_known_args(argv)
-
+        
     seed = args.seed
     random.seed(args.seed)
+    
     data = DataManager(args.dataset, args.seed)
+
     wordlist = data.gen_word()
     train_data, dev_data, test_data = data.gen_data(args.grained)
+    print 'Data Generated'
+    
     model = Model(wordlist, argv, len(data.dict_target))
+    print 'model instantiated'
+    
     batch_n = (len(train_data)-1) / args.batch + 1
     optimizer = OptimizerList[args.optimizer](model.params, args.lr, args.lr_word_vector)
     details = {'loss': [], 'loss_train':[], 'loss_dev':[], 'loss_test':[], \

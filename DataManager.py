@@ -42,6 +42,7 @@ class DataManager(object):
                     data.append(sentence)
             self.origin[fname] = data
         self.gen_target()
+        print 'final  construtor DataManager =' + str(seed)
 
     def gen_word(self):
         wordcount = {}
