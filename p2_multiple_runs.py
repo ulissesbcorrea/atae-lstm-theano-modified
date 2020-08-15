@@ -9,6 +9,7 @@ for seed in SEEDS:
 for seed in SEEDS:
     print 'Trainning ATAE with seed ' + str(seed)
     start_it = time.time()
+    print 'python2  main.py --seed '+ str(seed)
     os.system('python2  main.py --seed '+ str(seed))
     # os.system('killall python & killall python2 & killall python3')
     print 'Excuted with ' + str(seed) + ' in ' + str(time.time() - start_it) +  ' s'

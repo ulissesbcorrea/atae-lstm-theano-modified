@@ -94,6 +94,7 @@ if __name__ == '__main__':
 
     args, _ = parser.parse_known_args(argv)
 
+    seed = args.seed
     random.seed(args.seed)
     data = DataManager(args.dataset, args.seed)
     wordlist = data.gen_word()
