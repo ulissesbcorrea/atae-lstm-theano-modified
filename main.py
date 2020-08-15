@@ -78,7 +78,7 @@ if __name__ == '__main__':
     argv = sys.argv[1:]
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', type=str, default='lstm')
-    parser.add_argument('--seed', type=int, default=int(1000*time.time()))
+    parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--dim_hidden', type=int, default=300)
     parser.add_argument('--dim_gram', type=int, default=1)
     parser.add_argument('--dataset', type=str, default='data')
@@ -126,7 +126,7 @@ if __name__ == '__main__':
             print 'epoch ' + str(e)
             patience_count = 0
             all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e}
-            with open('result/%s/%s.txt' % (seed,'best_results'), 'w') as f:
+            with open(os.path.join('result',str(seed),'best_results.txt')), 'w') as f:
                 f.writelines(json.dumps(all_results))
         else:
             patience_count = patience_count + 1
