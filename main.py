@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 import numpy as np
 import theano
 import argparse
@@ -10,6 +12,7 @@ from Evaluator import Evaluators
 from DataManager import DataManager
 from lstm_att_con import AttentionLstm as Model
 import os
+import codecs
 
 def train(model, train_data, optimizer, epoch_num, batch_size, batch_n):
     st_time = time.time()
@@ -134,7 +137,7 @@ if __name__ == '__main__':
             print 'epoch ' + str(e)
             patience_count = 0
             all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e}
-            with open(os.path.join('result',str(seed),'best_results.txt'), 'w') as f:
+            with codecs.open(os.path.join('result',str(seed),'best_results.txt'), 'w',"utf-8-sig") as f:
                 f.writelines(json.dumps(all_results))
         else:
             patience_count = patience_count + 1
