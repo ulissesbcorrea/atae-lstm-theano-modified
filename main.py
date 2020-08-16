@@ -136,7 +136,7 @@ if __name__ == '__main__':
             print 'New Best Acc Dev:' + str(best_acc_dev)
             print 'epoch ' + str(e)
             patience_count = 0
-            all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e}
+            all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e, 'acc_train': now['acc_train'], 'acc_dev': now['acc_dev'], 'acc_test': now['acc_test'] }
             with codecs.open(os.path.join('results',str(seed),'best_results.txt'), 'w',"utf-8-sig") as f:
                 f.writelines(json.dumps(all_results))
         else:
