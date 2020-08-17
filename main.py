@@ -79,6 +79,7 @@ def test(model, test_data, grained):
     return loss/total_nodes, acc, results
 
 if __name__ == '__main__':
+    start_time = time.time()
     argv = sys.argv[1:]
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', type=str, default='lstm')
@@ -135,8 +136,9 @@ if __name__ == '__main__':
             best_epoch = e
             print 'New Best Acc Dev:' + str(best_acc_dev)
             print 'epoch ' + str(e)
+            print 'time elapsed ' + str(time.time() - start_time)
             patience_count = 0
-            all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e, 'acc_train': now['acc_train'], 'acc_dev': now['acc_dev'], 'acc_test': now['acc_test'] }
+            all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e, 'acc_train': now['acc_train'], 'acc_dev': now['acc_dev'], 'acc_test': now['acc_test'] , 'time': str(time.time() - start_time)}
             with codecs.open(os.path.join('results',str(seed),'best_results.txt'), 'w',"utf-8-sig") as f:
                 f.writelines(json.dumps(all_results))
         else:
@@ -152,3 +154,4 @@ if __name__ == '__main__':
             f.writelines(json.dumps(details))
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
     print 'test-accuracy for best dev model:' + str(best_acc_dev)
+    print 'All Execution time elapsed ' + str(time.time() - start_time)
