@@ -13,6 +13,7 @@ from DataManager import DataManager
 from lstm_att_con import AttentionLstm as Model
 import os
 import codecs
+from sklearn.metrics import confusion_matrix
 
 def train(model, train_data, optimizer, epoch_num, batch_size, batch_n):
     st_time = time.time()
@@ -73,9 +74,14 @@ def test(model, test_data, grained):
         result = evaluator.accumulate(solution[-1:], pred[-1:])
         preds.append(pred[0].tolist())
         all_original_text.append(original_text)
+
+    t = np.array(solutions).argmax(axis = 1)
+    p = np.array(preds).argmax(axis = 1)
+    cm = confusion_matrix(t, p).tolist()
     
-    results = { 'preds_raw':preds_raw, 'preds': preds, 'sequences': all_sequences, 'targets': targets, 'text': all_original_text}
+    results = { 'preds_raw':preds_raw, 'preds': preds, 'sequences': all_sequences, 'targets': targets, 'text': all_original_text, 'solutions': solutions, 'cm': cm}
     acc = evaluator.statistic()
+    
     return loss/total_nodes, acc, results
 
 if __name__ == '__main__':
@@ -122,6 +128,8 @@ if __name__ == '__main__':
     acc_test_best_dev_model = 0.0
     best_epoch = 0
     patience_count = 0
+    history = []
+    
     for e in range(args.epoch):
         random.shuffle(train_data)
         now = {}
@@ -129,6 +137,8 @@ if __name__ == '__main__':
         now['loss_train'], now['acc_train'], train_results = test(model, train_data, args.grained)
         now['loss_dev'], now['acc_dev'], dev_results = test(model, dev_data, args.grained)
         now['loss_test'], now['acc_test'], test_results = test(model, test_data, args.grained)
+        
+        history.append(now)
         
         if now['acc_dev'] > best_acc_dev:
             best_acc_dev = now['acc_dev'] 
@@ -150,8 +160,12 @@ if __name__ == '__main__':
             
         for key, value in now.items(): 
             details[key].append(value)
-        with open('result/%s.txt' % args.name, 'w') as f:
+        with open(os.path.join('result', str(seed), args.name), 'w') as f:
             f.writelines(json.dumps(details))
+    
+    with open(os.path.join('result', str(seed), 'history.json'), 'w') as f:
+        f.writelines(json.dumps(history))
+    
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
     print 'test-accuracy for best dev model:' + str(best_acc_dev)
     print 'All Execution time elapsed ' + str(time.time() - start_time)
