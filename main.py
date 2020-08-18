@@ -160,10 +160,10 @@ if __name__ == '__main__':
             
         for key, value in now.items(): 
             details[key].append(value)
-        with open(os.path.join('result', str(seed), args.name), 'w') as f:
+        with open(os.path.join('results', str(seed), args.name+'.txt'), 'a') as f:
             f.writelines(json.dumps(details))
     
-    with open(os.path.join('result', str(seed), 'history.json'), 'w') as f:
+    with open(os.path.join('results', str(seed), 'history.json'), 'a') as f:
         f.writelines(json.dumps(history))
     
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
