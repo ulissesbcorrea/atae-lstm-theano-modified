@@ -4,25 +4,30 @@ import numpy as np
 import theano
 
 class Sentence(object):
-    """docstring for sentence"""
+    """docstring for sentence""" 
+    
     def __init__(self, content, target, rating, grained):
         self.content, self.target = content.lower(), target
         self.solution = np.zeros(grained, dtype=theano.config.floatX)
         self.senlength = len(self.content.split(' '))
         try:
             self.solution[int(rating)+1] = 1
-        except:
+        except Exception as e:
+            print 'erro  no contrutor de Sentence:'+ str(e)
+            print 'rating:' + rating
             exit()
+    
     def stat(self, target_dict, wordlist, grained=3):
         data, data_target, i = [], [], 0
         solution = np.zeros((self.senlength, grained), dtype=theano.config.floatX)
         for word in self.content.split(' '):
             data.append(wordlist[word])
-            try:
-                pol = Lexicons_dict[word]
-                solution[i][pol+1] = 1
-            except:
-                pass
+            # try:
+            #     pol = Lexicons_dict[word]
+            #     solution[i][pol+1] = 1
+            # except Exception as e:
+            #     print 'error in stat:' + str(e)
+            #     pass
             i = i+1
         for word in self.target.split(' '):
             data_target.append(wordlist[word])

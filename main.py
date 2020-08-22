@@ -108,7 +108,7 @@ if __name__ == '__main__':
     seed = args.seed
     random.seed(args.seed)
     
-    data = DataManager(args.dataset, args.seed)
+    data = DataManager(args.dataset, args.seed, grained=3)
 
     wordlist = data.gen_word()
     train_data, dev_data, test_data = data.gen_data(args.grained)
