@@ -31,7 +31,7 @@ class Sentence(object):
             i = i+1
         for word in self.target.split(' '):
             data_target.append(wordlist[word])
-        return {'seqs': data, 'target': data_target, 'solution': np.array([self.solution]), 'target_index': self.get_target(target_dict), 'original_text':self.content}
+        return {'seqs': data, 'target': data_target, 'solution': np.array([self.solution]), 'target_index': self.get_target(target_dict), 'original_text':self.content, 'aspect': self.target}
     def get_target(self, dict_target):
         return dict_target[self.target]
 
