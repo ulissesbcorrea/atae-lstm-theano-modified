@@ -60,8 +60,9 @@ def test(model, test_data, grained):
     all_sequences = []
     solutions = []
     all_original_text = []
+    all_aspect = []
     for item in test_data:
-        sequences, target, tar_scalar, solution, original_text =  item['seqs'], item['target'], item['target_index'], item['solution'], item['original_text']
+        sequences, target, tar_scalar, solution, original_text, aspect =  item['seqs'], item['target'], item['target_index'], item['solution'], item['original_text'], item['aspect']
         
         pred = model.func_test(sequences, tar_scalar)
 
@@ -74,12 +75,13 @@ def test(model, test_data, grained):
         result = evaluator.accumulate(solution[-1:], pred[-1:])
         preds.append(pred[0].tolist())
         all_original_text.append(original_text)
+        all_aspect.append(aspect)
 
     t = np.array(solutions).argmax(axis = 1)
     p = np.array(preds).argmax(axis = 1)
     cm = confusion_matrix(t, p).tolist()
     
-    results = { 'preds_raw':preds_raw, 'preds': preds, 'sequences': all_sequences, 'targets': targets, 'text': all_original_text, 'solutions': solutions, 'cm': cm}
+    results = { 'preds_raw':preds_raw, 'preds': preds, 'sequences': all_sequences, 'targets': targets, 'text': all_original_text, 'aspect':all_aspect, 'solutions': solutions, 'cm': cm}
     acc = evaluator.statistic()
     
     return loss/total_nodes, acc, results
