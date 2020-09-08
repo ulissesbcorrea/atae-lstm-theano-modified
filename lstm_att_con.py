@@ -13,7 +13,9 @@ from WordLoader import WordLoader
 def WeightedCategoricalCrossEntropy(y_true, y_pred):
     weights = np.array([0.9347, 0.8718, 0.1935]).T
     ce =  T.nnet.categorical_crossentropy(y_pred, y_true)
-    print ce,y_pred, y_true
+    theano.printing.Print('ce')(ce)
+    theano.printing.Print('pred')(y_pred)
+    theano.printing.Print('true')(y_true)
     return (weights * ce).sum()
 # https://github.com/ticcky/lstm_agent/blob/67ac80d6a73c2b9fb270ae48e135d64fc020b93b/neural/costs.py
 
