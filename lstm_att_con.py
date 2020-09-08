@@ -10,14 +10,14 @@ from WordLoader import WordLoader
 
 
 # Adapatado pelo UBCORREA
-def WeightedCategoricalCrossEntropy(y_true, y_pred):
-    weights = np.array([0.9347, 0.8718, 0.1935]).T
-    ce =  T.nnet.categorical_crossentropy(y_pred, y_true)
-    theano.printing.Print('ce')(ce)
-    theano.printing.Print('pred')(y_pred)
-    theano.printing.Print('true')(y_true)
-    return (weights * ce).sum()
-# https://github.com/ticcky/lstm_agent/blob/67ac80d6a73c2b9fb270ae48e135d64fc020b93b/neural/costs.py
+# def WeightedCategoricalCrossEntropy(y_true, y_pred):
+#     weights = np.array([0.9347, 0.8718, 0.1935]).T
+#     ce =  T.nnet.categorical_crossentropy(y_pred, y_true)
+#     theano.printing.Print('ce')(ce)
+#     theano.printing.Print('pred')(y_pred)
+#     theano.printing.Print('true')(y_true)
+#     return (weights * ce).sum()
+# # https://github.com/ticcky/lstm_agent/blob/67ac80d6a73c2b9fb270ae48e135d64fc020b93b/neural/costs.py
 
 
 class AttentionLstm(object):
@@ -119,8 +119,8 @@ class AttentionLstm(object):
         self.pred_for_test = T.nnet.softmax(T.dot(embedding_for_test, self.Ws) + self.bs)
 
         self.l2 = sum([T.sum(param**2) for param in self.params]) - T.sum(self.Vw**2)
-        # self.loss_sen = -T.tensordot(self.solution, T.log(self.pred_for_train), axes=2)
-        self.loss_sen = WeightedCategoricalCrossEntropy(y_true=self.solution,y_pred=self.pred_for_train)
+        self.loss_sen = -T.tensordot(self.solution, T.log(self.pred_for_train), axes=2)
+        # self.loss_sen = WeightedCategoricalCrossEntropy(y_true=self.solution,y_pred=self.pred_for_train)
         self.loss_l2 = 0.5 * self.l2 * self.regular
         self.loss = self.loss_sen + self.loss_l2
 
