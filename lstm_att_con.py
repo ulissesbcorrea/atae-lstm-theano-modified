@@ -107,7 +107,8 @@ class AttentionLstm(object):
         self.pred_for_test = T.nnet.softmax(T.dot(embedding_for_test, self.Ws) + self.bs)
 
         self.l2 = sum([T.sum(param**2) for param in self.params]) - T.sum(self.Vw**2)
-        self.loss_sen = -T.tensordot(self.solution, T.log(self.pred_for_train), axes=2)
+        class_weigt = np.array([0.9347, 0.8718, 0.1935])
+        self.loss_sen = T.tensordot(-T.tensordot(self.solution, T.log(self.pred_for_train), axes=2),class_weigt,axes = 2)
         self.loss_l2 = 0.5 * self.l2 * self.regular
         self.loss = self.loss_sen + self.loss_l2
 
