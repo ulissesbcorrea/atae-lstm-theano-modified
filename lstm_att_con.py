@@ -118,7 +118,6 @@ class AttentionLstm(object):
         self.l2 = sum([T.sum(param**2) for param in self.params]) - T.sum(self.Vw**2)
         # self.loss_sen = -T.tensordot(self.solution, T.log(self.pred_for_train), axes=2)
         self.loss_sen = WeightedCategoricalCrossEntropy(y_true=self.solution,y_pred=self.pred_for_train)
-        print 'train cross ', self.
         self.loss_l2 = 0.5 * self.l2 * self.regular
         self.loss = self.loss_sen + self.loss_l2
 
