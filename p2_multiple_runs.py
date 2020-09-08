@@ -15,7 +15,7 @@ for seed in SEEDS:
     print 'Trainning ATAE with seed ' + str(seed)
     start_it = time.time()
     print 'python2  main.py --seed '+ str(seed)
-    os.system('python2  main.py --seed '+ str(seed) + ' --epochs ' + str(epochs))
+    os.system('python2  main.py --seed '+ str(seed) + ' --epoch ' + str(epochs))
     print 'Excuted with ' + str(seed) + ' in ' + str(time.time() - start_it) +  ' s'
 
 print 'executed all seeds in ' + str(time.time() - start_time) + ' s' 
