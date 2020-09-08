@@ -48,7 +48,9 @@ def test(model, test_data, grained):
     evaluator = Evaluators[grained]()
     keys = evaluator.keys()
     def cross(solution, pred):
-        return -np.tensordot(solution, np.log(pred), axes=([0, 1], [0, 1]))
+        class_weigt = theano.Tensor([0.9347, 0.8718, 0.1935])
+        return -(class_weigt * solution * tensor.log(pred) + (1.0 - solution) * tensor.log(1.0 - pred))
+        # return -np.tensordot(solution, np.log(pred), axes=([0, 1], [0, 1]))
 
     loss = .0
     total_nodes = 0
