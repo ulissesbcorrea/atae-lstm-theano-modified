@@ -22,7 +22,7 @@ epochs = 50
 
 n_folds = 10
 for fold in range(n_folds):
-    p = os.path.join('results','fold_'+str(fodl))
+    p = os.path.join('results','fold_'+str(fold))
 
     if not os.path.exists(p):
         os.makedirs(p)
