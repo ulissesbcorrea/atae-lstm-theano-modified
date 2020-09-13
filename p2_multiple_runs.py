@@ -30,8 +30,8 @@ for fold in range(n_folds):
 for fold in range(n_folds):
     print 'Trainning ATAE with fold ' + str(fold)
     start_it = time.time()
-    print 'python2  main.py --fold '+ str(fold) + ' --epoch ' + str(epochs) + '--dataset ' + 'fold_'+str(fold)
-    os.system('python2  main.py --fold '+ str(fold) + ' --epoch ' + str(epochs) + '--dataset ' + 'data/fold_'+str(fold))
+    print 'python2  main.py --fold '+ str(fold) + ' --epoch ' + str(epochs) + ' --dataset ' + 'fold_'+str(fold)
+    os.system('python2  main.py --fold '+ str(fold) + ' --epoch ' + str(epochs) + ' --dataset ' + 'data/fold_'+str(fold))
     print 'Excuted with fold_' + str(fold) + ' in ' + str(time.time() - start_it) +  ' s'
 
 print 'executed all seeds in ' + str(time.time() - start_time) + ' s' 
