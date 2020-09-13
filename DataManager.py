@@ -41,7 +41,7 @@ class DataManager(object):
         self.origin = {}
         for fname in self.fileList:
             data = []
-            with open('%s/%s/%s.cor' % (dataset, seed, fname)) as f:
+            with open('%s/%s.cor' % (dataset, fname)) as f:
                 sentences = f.readlines()
                 for i in xrange(len(sentences)/3):
                     content, target, rating = sentences[i*3].strip(), sentences[i*3+1].strip(), sentences[i*3+2].strip()

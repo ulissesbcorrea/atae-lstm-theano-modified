@@ -93,7 +93,8 @@ if __name__ == '__main__':
     argv = sys.argv[1:]
     parser = argparse.ArgumentParser()
     parser.add_argument('--name', type=str, default='lstm')
-    parser.add_argument('--seed', type=int, default=0)
+    parser.add_argument('--seed', type=int, default=94196879)
+    parser.add_argument('--fold', type=int, default=0)
     parser.add_argument('--dim_hidden', type=int, default=300)
     parser.add_argument('--dim_gram', type=int, default=1)
     parser.add_argument('--dataset', type=str, default='data')
@@ -108,9 +109,12 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=5)
 
     args, _ = parser.parse_known_args(argv)
-        
+    
+    fold = args.fold
     seed = args.seed
-    random.seed(args.seed)
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
     
     data = DataManager(args.dataset, args.seed, grained=3)
 
@@ -153,7 +157,7 @@ if __name__ == '__main__':
             print 'time elapsed ' + str((time.time() - start_time)/60) + ' s'
             patience_count = 0
             all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e, 'acc_train': now['acc_train'], 'acc_dev': now['acc_dev'], 'acc_test': now['acc_test'] , 'time': str(time.time() - start_time)}
-            with codecs.open(os.path.join('results',str(seed),'best_results.txt'), 'w',"utf-8-sig") as f:
+            with codecs.open(os.path.join('results','fold_'+str(fold),'best_results.txt'), 'w',"utf-8-sig") as f:
                 f.writelines(json.dumps(all_results))
         else:
             patience_count = patience_count + 1
@@ -164,10 +168,10 @@ if __name__ == '__main__':
             
         for key, value in now.items(): 
             details[key].append(value)
-        with open(os.path.join('results', str(seed), args.name+'.txt'), 'a') as f:
+        with open(os.path.join('results', 'fold_'+str(fold), args.name+'.txt'), 'a') as f:
             f.writelines(json.dumps(details))
     
-    with open(os.path.join('results', str(seed), 'history.json'), 'a') as f:
+    with open(os.path.join('results', 'fold_'+str(fold), 'history.json'), 'a') as f:
         f.writelines(json.dumps(history))
     
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
