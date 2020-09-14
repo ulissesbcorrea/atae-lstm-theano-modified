@@ -158,7 +158,7 @@ if __name__ == '__main__':
             print 'epoch ' + str(e)
             print 'time elapsed ' + str((time.time() - start_time)/60) + ' s'
             patience_count = 0
-            with open(os.path.join('results','fold_'+str(fold),'best_results.txt'), 'w', encoding= 'utf-8') as f:
+            with open(os.path.join('results','fold_'+str(fold),'best_results.txt'), 'w') as f:
                 f.writelines(json.dumps(all_results,ensure_ascii=False))
         else:
             patience_count = patience_count + 1
@@ -169,10 +169,10 @@ if __name__ == '__main__':
             
         for key, value in now.items(): 
             details[key].append(value)
-        with open(os.path.join('results', 'fold_'+str(fold), args.name+'.txt'),  'a', encoding= 'utf-8') as f:
+        with open(os.path.join('results', 'fold_'+str(fold), args.name+'.txt'),  'a') as f:
             f.writelines(json.dumps(details),ensure_ascii=False)
     
-    with open(os.path.join('results', 'fold_'+str(fold), 'history.json'), 'a', encoding= 'utf-8') as f:
+    with open(os.path.join('results', 'fold_'+str(fold), 'history.json'), 'a') as f:
         f.writelines(json.dumps(history), ensure_ascii=False)
     
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
