@@ -170,10 +170,10 @@ if __name__ == '__main__':
         for key, value in now.items(): 
             details[key].append(value)
         with open(os.path.join('results', 'fold_'+str(fold), args.name+'.txt'),  'a') as f:
-            f.writelines(json.dumps(details),ensure_ascii=False)
+            f.writelines(json.dumps(details,ensure_ascii=False))
     
     with open(os.path.join('results', 'fold_'+str(fold), 'history.json'), 'a') as f:
-        f.writelines(json.dumps(history), ensure_ascii=False)
+        f.writelines(json.dumps(history, ensure_ascii=False))
     
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
     print 'test-accuracy for best dev model:' + str(best_acc_dev)
