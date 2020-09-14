@@ -146,7 +146,9 @@ if __name__ == '__main__':
         now['loss_dev'], now['acc_dev'], dev_results = test(model, dev_data, args.grained)
         now['loss_test'], now['acc_test'], test_results = test(model, test_data, args.grained)
         
-        history.append(now)
+        
+        all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e, 'acc_train': now['acc_train'], 'acc_dev': now['acc_dev'], 'acc_test': now['acc_test'] , 'time': str(time.time() - start_time)}
+        history.append(all_results)
         
         if now['acc_dev'] > best_acc_dev:
             best_acc_dev = now['acc_dev'] 
@@ -156,9 +158,8 @@ if __name__ == '__main__':
             print 'epoch ' + str(e)
             print 'time elapsed ' + str((time.time() - start_time)/60) + ' s'
             patience_count = 0
-            all_results = {'train': train_results, 'dev': dev_results, 'test': test_results, 'epoch': e, 'acc_train': now['acc_train'], 'acc_dev': now['acc_dev'], 'acc_test': now['acc_test'] , 'time': str(time.time() - start_time)}
             with codecs.open(os.path.join('results','fold_'+str(fold),'best_results.txt'), 'w',"utf-8-sig") as f:
-                f.writelines(json.dumps(all_results))
+                f.writelines(json.dumps(all_results,ensure_ascii=False))
         else:
             patience_count = patience_count + 1
         
@@ -168,11 +169,11 @@ if __name__ == '__main__':
             
         for key, value in now.items(): 
             details[key].append(value)
-        with open(os.path.join('results', 'fold_'+str(fold), args.name+'.txt'), 'a') as f:
-            f.writelines(json.dumps(details))
+        with codecs.open(os.path.join('results', 'fold_'+str(fold), args.name+'.txt'), mode = 'a', encoding='utf-8-sig') as f:
+            f.writelines(json.dumps(details),ensure_ascii=False)
     
-    with open(os.path.join('results', 'fold_'+str(fold), 'history.json'), 'a') as f:
-        f.writelines(json.dumps(history))
+    with codecs.open(os.path.join('results', 'fold_'+str(fold), 'history.json'), mode = 'a', encoding='utf-8-sig') as f:
+        f.writelines(json.dumps(history), ensure_ascii=False)
     
     print 'Best dev-accuracy=' + str(best_acc_dev) + ' @ epoch ' + str(best_epoch) 
     print 'test-accuracy for best dev model:' + str(best_acc_dev)
